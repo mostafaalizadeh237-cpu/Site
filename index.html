@@ -1,0 +1,1361 @@
+
+html_code = '''<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRGANG Security | امنیت سایبری</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #252542;
+            --neon-blue: #00d4ff;
+            --neon-purple: #b026ff;
+            --neon-green: #00ff88;
+            --neon-red: #ff2d55;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6b6b7b;
+            --border: #2a2a3e;
+            --gradient-hero: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0d0d1a 100%);
+            --gradient-card: linear-gradient(145deg, #1a1a2e 0%, #252542 100%);
+            --glow-blue: 0 0 20px rgba(0, 212, 255, 0.3);
+            --glow-purple: 0 0 20px rgba(176, 38, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            border-radius: 4px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue); }
+            50% { box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue); }
+        }
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes particle-float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            animation: particle-float 15s infinite linear;
+            opacity: 0.6;
+        }
+        .particle:nth-child(2n) { background: var(--neon-purple); animation-duration: 20s; animation-delay: -5s; }
+        .particle:nth-child(3n) { background: var(--neon-green); animation-duration: 25s; animation-delay: -10s; }
+        .particle:nth-child(4n) { width: 2px; height: 2px; animation-duration: 18s; }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            padding: 15px 50px;
+            background: rgba(10, 10, 15, 0.95);
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            font-size: 32px;
+            -webkit-text-fill-color: var(--neon-blue);
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--neon-blue);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 150px 50px 100px;
+            position: relative;
+            background: var(--gradient-hero);
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+        .hero-text {
+            animation: slide-up 1s ease-out;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 50px;
+            color: var(--neon-blue);
+            font-size: 14px;
+            margin-bottom: 25px;
+            animation: fade-in 1.5s ease-out;
+        }
+        .hero-badge i {
+            animation: pulse-glow 2s infinite;
+        }
+        .hero-title {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+        .hero-title span {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .btn-primary {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-blue);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+        }
+        .btn-secondary {
+            padding: 16px 40px;
+            background: transparent;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-secondary:hover {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            box-shadow: var(--glow-blue);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero-image img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.2);
+        }
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            opacity: 0.3;
+            animation: rotate-slow 20s linear infinite;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 50px;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-blue);
+            box-shadow: var(--glow-blue);
+        }
+        .stat-icon {
+            font-size: 40px;
+            color: var(--neon-blue);
+            margin-bottom: 15px;
+        }
+        .stat-number {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 100px 50px;
+            position: relative;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(176, 38, 255, 0.1);
+            border: 1px solid var(--neon-purple);
+            border-radius: 50px;
+            color: var(--neon-purple);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+        .section-title span {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: var(--gradient-card);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-blue);
+            box-shadow: var(--glow-blue);
+        }
+        .product-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 25px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--neon-blue);
+        }
+        .product-card:nth-child(2) .product-icon { background: rgba(176, 38, 255, 0.1); color: var(--neon-purple); }
+        .product-card:nth-child(3) .product-icon { background: rgba(0, 255, 136, 0.1); color: var(--neon-green); }
+        .product-card:nth-child(4) .product-icon { background: rgba(255, 45, 85, 0.1); color: var(--neon-red); }
+        .product-card:nth-child(5) .product-icon { background: rgba(0, 212, 255, 0.1); color: var(--neon-blue); }
+        .product-card:nth-child(6) .product-icon { background: rgba(176, 38, 255, 0.1); color: var(--neon-purple); }
+        .product-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .product-desc {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+        .product-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        .product-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .product-features li i {
+            color: var(--neon-green);
+            font-size: 12px;
+        }
+        .product-price {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        .price {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--neon-green);
+        }
+        .currency {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+        .period {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .buy-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .buy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Telegram Section */
+        .telegram-section {
+            padding: 100px 50px;
+            background: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        .telegram-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .telegram-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .telegram-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #0088cc, #00d4ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 40px rgba(0, 136, 204, 0.4);
+            animation: float 4s ease-in-out infinite;
+        }
+        .telegram-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        .telegram-title span {
+            color: #00d4ff;
+        }
+        .telegram-desc {
+            color: var(--text-secondary);
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #0088cc, #00d4ff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 0 30px rgba(0, 136, 204, 0.4);
+        }
+        .telegram-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(0, 136, 204, 0.6);
+        }
+        .telegram-username {
+            margin-top: 20px;
+            font-size: 20px;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 50px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-item {
+            display: flex;
+            gap: 25px;
+            padding: 30px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            border-color: var(--neon-blue);
+            transform: translateX(-10px);
+            box-shadow: var(--glow-blue);
+        }
+        .feature-icon {
+            min-width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .feature-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .feature-content p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 50px 30px;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border);
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        .footer-brand .logo {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+        .footer-links h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+        .footer-links a:hover {
+            color: var(--neon-blue);
+            padding-right: 5px;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            background: var(--neon-blue);
+            color: var(--bg-primary);
+            border-color: var(--neon-blue);
+            transform: translateY(-3px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-image {
+                order: -1;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero {
+                padding: 120px 20px 60px;
+            }
+            .hero-title {
+                font-size: 36px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: slide-up 0.3s ease-out;
+        }
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            margin: 0 auto 25px;
+        }
+        .modal h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        .modal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #0088cc, #00d4ff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 136, 204, 0.4);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover {
+            background: var(--neon-red);
+            color: white;
+            border-color: var(--neon-red);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            MRGANG Security
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">خانه</a></li>
+            <li><a href="#products">محصولات</a></li>
+            <li><a href="#features">ویژگی‌ها</a></li>
+            <li><a href="#telegram">تماس</a></li>
+        </ul>
+        <a href="https://t.me/MRGANG220" target="_blank" class="nav-cta">
+            <i class="fab fa-telegram"></i>
+            پشتیبانی
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    امنیت سایبری پیشرفته
+                </div>
+                <h1 class="hero-title">
+                    محافظت از<br>
+                    <span>دنیای دیجیتال</span> شما
+                </h1>
+                <p class="hero-subtitle">
+                    راه‌حل‌های جامع امنیت سایبری برای محافظت از داده‌ها، حریم خصوصی و زیرساخت‌های دیجیتالی شما. با تکنولوژی‌های روز دنیا همراه شوید.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        مشاهده محصولات
+                    </a>
+                    <a href="#telegram" class="btn-secondary">
+                        <i class="fab fa-telegram"></i>
+                        مشاوره رایگان
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/8672d2d347dce867aaa1effc1464631106b1eba7.jpg" alt="Cyber Security 3D">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number">+2,500</div>
+                <div class="stat-label">مشتری فعال</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">آپتایم</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                <div class="stat-number">+50</div>
+                <div class="stat-label">سرور جهانی</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-headset"></i></div>
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">پشتیبانی</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-star"></i>
+                محصولات ویژه
+            </div>
+            <h2 class="section-title">
+                اشتراک‌های <span>امنیتی</span>
+            </h2>
+            <p class="section-desc">
+                راه‌حل‌های امنیتی متناسب با نیازهای مختلف شما - از کاربران خانگی تا سازمان‌های بزرگ
+            </p>
+        </div>
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-user-shield"></i></div>
+                <h3 class="product-name">اشتراک پایه</h3>
+                <p class="product-desc">مناسب کاربران خانگی و استفاده روزمره با امنیت پایه</p>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> محافظت آنتی‌ویروس</li>
+                    <li><i class="fas fa-check"></i> فایروال پایه</li>
+                    <li><i class="fas fa-check"></i> ۱ دستگاه همزمان</li>
+                    <li><i class="fas fa-check"></i> پشتیبانی ایمیل</li>
+                </ul>
+                <div class="product-price">
+                    <span class="price">۱۵۰,۰۰۰</span>
+                    <span class="currency">تومان</span>
+                    <span class="period">/ ماهانه</span>
+                </div>
+                <a href="https://t.me/MRGANG220" target="_blank" class="buy-btn">
+                    <i class="fab fa-telegram"></i>
+                    خرید از تلگرام
+                </a>
+            </div>
+
+            <!-- Product 2 - Popular -->
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3 class="product-name">اشتراک حرفه‌ای</h3>
+                <p class="product-desc">مناسب کاربران حرفه‌ای با نیاز به امنیت پیشرفته</p>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> محافظت پیشرفته</li>
+                    <li><i class="fas fa-check"></i> فایروال سفارشی</li>
+                    <li><i class="fas fa-check"></i> ۳ دستگاه همزمان</li>
+                    <li><i class="fas fa-check"></i> پشتیبانی ۲۴/۷</li>
+                    <li><i class="fas fa-check"></i> گزارش‌گیری امنیتی</li>
+                </ul>
+                <div class="product-price">
+                    <span class="price">۳۵۰,۰۰۰</span>
+                    <span class="currency">تومان</span>
+                    <span class="period">/ ماهانه</span>
+                </div>
+                <a href="https://t.me/MRGANG220" target="_blank" class="buy-btn">
+                    <i class="fab fa-telegram"></i>
+                    خرید از تلگرام
+                </a>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-crown"></i></div>
+                <h3 class="product-name">اشتراک VIP</h3>
+                <p class="product-desc">مناسب کاربران VIP با نیاز به حداکثر امنیت</p>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> محافظت سازمانی</li>
+                    <li><i class="fas fa-check"></i> فایروال پیشرفته</li>
+                    <li><i class="fas fa-check"></i> ۵ دستگاه همزمان</li>
+                    <li><i class="fas fa-check"></i> پشتیبانی VIP</li>
+                    <li><i class="fas fa-check"></i> آنالیز تهدید</li>
+                    <li><i class="fas fa-check"></i> بک‌آپ خودکار</li>
+                </ul>
+                <div class="product-price">
+                    <span class="price">۶۵۰,۰۰۰</span>
+                    <span class="currency">تومان</span>
+                    <span class="period">/ ماهانه</span>
+                </div>
+                <a href="https://t.me/MRGANG220" target="_blank" class="buy-btn">
+                    <i class="fab fa-telegram"></i>
+                    خرید از تلگرام
+                </a>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3 class="product-name">دوره آموزشی</h3>
+                <p class="product-desc">آموزش امنیت سایبری از مبتدی تا پیشرفته</p>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> ۵۰+ ساعت ویدیو</li>
+                    <li><i class="fas fa-check"></i> تمرین‌های عملی</li>
+                    <li><i class="fas fa-check"></i> مدرک معتبر</li>
+                    <li><i class="fas fa-check"></i> دسترسی مادام‌العمر</li>
+                </ul>
+                <div class="product-price">
+                    <span class="price">۸۰۰,۰۰۰</span>
+                    <span class="currency">تومان</span>
+                    <span class="period">/ یک‌بار</span>
+                </div>
+                <a href="https://t.me/MRGANG220" target="_blank" class="buy-btn">
+                    <i class="fab fa-telegram"></i>
+                    خرید از تلگرام
+                </a>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-tools"></i></div>
+                <h3 class="product-name">ابزارهای امنیتی</h3>
+                <p class="product-desc">مجموعه ابزارهای تست نفوذ و امنیت</p>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> اسکنر آسیب‌پذیری</li>
+                    <li><i class="fas fa-check"></i> ابزار تحلیل شبکه</li>
+                    <li><i class="fas fa-check"></i> اسکریپت‌های آماده</li>
+                    <li><i class="fas fa-check"></i> آپدیت مادام‌العمر</li>
+                </ul>
+                <div class="product-price">
+                    <span class="price">۴۵۰,۰۰۰</span>
+                    <span class="currency">تومان</span>
+                    <span class="period">/ یک‌بار</span>
+                </div>
+                <a href="https://t.me/MRGANG220" target="_blank" class="buy-btn">
+                    <i class="fab fa-telegram"></i>
+                    خرید از تلگرام
+                </a>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-icon"><i class="fas fa-building"></i></div>
+                <h3 class="product-name">راه‌حل سازمانی</h3>
+                <p class="product-desc">راه‌حل امنیتی کامل برای سازمان‌ها و شرکت‌ها</p>
+                <ul class="product-features">
+                    <li><i class="fas fa-check"></i> مدیریت مرکزی</li>
+                    <li><i class="fas fa-check"></i> نامحدود کاربر</li>
+                    <li><i class="fas fa-check"></i> SLA تضمینی</li>
+                    <li><i class="fas fa-check"></i> مشاوره اختصاصی</li>
+                    <li><i class="fas fa-check"></i> آموزش کارکنان</li>
+                </ul>
+                <div class="product-price">
+                    <span class="price">تماس</span>
+                    <span class="currency">بگیرید</span>
+                </div>
+                <a href="https://t.me/MRGANG220" target="_blank" class="buy-btn">
+                    <i class="fab fa-telegram"></i>
+                    مشاوره رایگان
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-bolt"></i>
+                قدرتمند و مطمئن
+            </div>
+            <h2 class="section-title">
+                چرا <span>MRGANG Security</span>؟
+            </h2>
+            <p class="section-desc">
+                ویژگی‌های منحصربه‌فردی که ما را از بقیه متمایز می‌کند
+            </p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                <div class="feature-content">
+                    <h3>رمزنگاری سطح نظامی</h3>
+                    <p>استفاده از الگوریتم‌های رمزنگاری AES-256 و ChaCha20 برای حداکثر امنیت داده‌های شما</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="feature-content">
+                    <h3>سرعت بالا</h3>
+                    <p>سرورهای بهینه‌سازی شده با پروتکل‌های WireGuard و IKEv2 برای سرعت حداکثری</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-eye-slash"></i></div>
+                <div class="feature-content">
+                    <h3>سیاست No-Log</h3>
+                    <p>هیچ لاگی از فعالیت‌های شما ذخیره نمی‌شود - حریم خصوصی کامل تضمین شده</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-globe-americas"></i></div>
+                <div class="feature-content">
+                    <h3>شبکه جهانی</h3>
+                    <p>بیش از ۵۰ سرور در ۳۰ کشور جهان برای دسترسی سریع و پایدار</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="feature-content">
+                    <h3>همه پلتفرم‌ها</h3>
+                    <p>پشتیبانی از Windows، macOS، Linux، iOS، Android و روترها</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <div class="feature-content">
+                    <h3>پشتیبانی ۲۴/۷</h3>
+                    <p>تیم پشتیبانی متخصص در تمام ساعات شبانه‌روز آماده کمک به شماست</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Telegram Section -->
+    <section class="telegram-section" id="telegram">
+        <div class="telegram-container">
+            <div class="telegram-icon">
+                <i class="fab fa-telegram"></i>
+            </div>
+            <h2 class="telegram-title">
+                با ما در <span>تلگرام</span> در تماس باشید
+            </h2>
+            <p class="telegram-desc">
+                برای خرید اشتراک، مشاوره رایگان و پشتیبانی، مستقیماً به تلگرام ما پیام بدید. تیم ما در سریع‌ترین زمان ممکن پاسخگوی شما خواهد بود.
+            </p>
+            <a href="https://t.me/MRGANG220" target="_blank" class="telegram-btn">
+                <i class="fab fa-telegram"></i>
+                پیام در تلگرام
+            </a>
+            <div class="telegram-username">@MRGANG220</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    MRGANG Security
+                </div>
+                <p>راه‌حل‌های جامع امنیت سایبری برای محافظت از دنیای دیجیتال شما. با تکنولوژی‌های روز دنیا همراه شوید.</p>
+            </div>
+            <div class="footer-links">
+                <h4>محصولات</h4>
+                <ul>
+                    <li><a href="#products">اشتراک پایه</a></li>
+                    <li><a href="#products">اشتراک حرفه‌ای</a></li>
+                    <li><a href="#products">اشتراک VIP</a></li>
+                    <li><a href="#products">راه‌حل سازمانی</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>آموزش</h4>
+                <ul>
+                    <li><a href="#products">دوره آموزشی</a></li>
+                    <li><a href="#products">ابزارهای امنیتی</a></li>
+                    <li><a href="#">وبلاگ</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>تماس</h4>
+                <ul>
+                    <li><a href="https://t.me/MRGANG220" target="_blank">تلگرام</a></li>
+                    <li><a href="#">ایمیل</a></li>
+                    <li><a href="#">درباره ما</a></li>
+                    <li><a href="#">قوانین</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>تمامی حقوق محفوظ است © ۲۰۲۴ MRGANG Security</div>
+            <div class="social-links">
+                <a href="https://t.me/MRGANG220" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-icon"><i class="fab fa-telegram"></i></div>
+            <h3>خرید از طریق تلگرام</h3>
+            <p>برای تکمیل خرید، لطفاً به تلگرام ما پیام بدید و نام محصول مورد نظر را ارسال کنید. تیم ما در سریع‌ترین زمان پاسخگوی شما خواهد بود.</p>
+            <a href="https://t.me/MRGANG220" target="_blank" class="modal-btn">
+                <i class="fab fa-telegram"></i>
+                پیام در تلگرام
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Buy button click - show modal
+        document.querySelectorAll('.buy-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!this.href.includes('t.me')) {
+                    e.preventDefault();
+                    document.getElementById('modal').classList.add('active');
+                }
+            });
+        });
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slide-up 0.6s ease-out forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.product-card, .stat-card, .feature-item').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>'''
+
+# Save the file
+with open('/mnt/agents/output/index.html', 'w', encoding='utf-8') as f:
+    f.write(html_code)
+
+print("✅ سایت با موفقیت ساخته شد!")
+print(f"📁 مسیر فایل: /mnt/agents/output/index.html")
+print(f"📊 حجم فایل: {len(html_code)} کاراکتر")
