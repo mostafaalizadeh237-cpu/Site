@@ -1,5 +1,7 @@
 
-js_code = '''// ===== Matrix Rain Effect =====
+# فایل 3: script.js - جاوااسکریپت Cyberpunk
+
+js_code = '''// ===== MATRIX RAIN EFFECT =====
 function initMatrix() {
     const canvas = document.getElementById('matrixCanvas');
     if (!canvas) return;
@@ -8,7 +10,7 @@ function initMatrix() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/\\[]{}=+-_*&^%$#@!';
     const charArray = chars.split('');
     const fontSize = 14;
     const columns = canvas.width / fontSize;
@@ -22,7 +24,7 @@ function initMatrix() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = '#00d4ff';
+        ctx.fillStyle = '#00ff41';
         ctx.font = fontSize + 'px monospace';
         
         for (let i = 0; i < drops.length; i++) {
@@ -44,30 +46,55 @@ function initMatrix() {
     });
 }
 
-// ===== Particles =====
-function createParticles() {
-    const container = document.getElementById('particles');
-    if (!container) return;
+// ===== CURSOR TRAIL EFFECT =====
+function initCursorTrail() {
+    const trails = [];
+    const maxTrails = 20;
     
-    for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 15 + 's';
-        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-        container.appendChild(particle);
-    }
+    document.addEventListener('mousemove', (e) => {
+        const trail = document.createElement('div');
+        trail.className = 'cursor-trail';
+        trail.style.left = e.clientX + 'px';
+        trail.style.top = e.clientY + 'px';
+        document.body.appendChild(trail);
+        trails.push(trail);
+        
+        if (trails.length > maxTrails) {
+            const oldTrail = trails.shift();
+            oldTrail.remove();
+        }
+        
+        setTimeout(() => {
+            trail.style.opacity = '0';
+            setTimeout(() => trail.remove(), 500);
+        }, 100);
+    });
 }
 
-// ===== Typing Effect =====
+// ===== GLITCH EFFECT ON HOVER =====
+function initGlitchEffect() {
+    const glitchOverlay = document.getElementById('glitchOverlay');
+    if (!glitchOverlay) return;
+    
+    const glitchElements = document.querySelectorAll('.cyber-card, .cyber-btn, .cyber-link');
+    
+    glitchElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            glitchOverlay.classList.add('active');
+            setTimeout(() => glitchOverlay.classList.remove('active'), 200);
+        });
+    });
+}
+
+// ===== TYPING EFFECT =====
 function initTyping() {
     const textElement = document.getElementById('typingText');
     if (!textElement) return;
     
     const texts = [
-        'محافظت از دنیای دیجیتال شما',
-        'امنیت سایبری پیشرفته',
-        'حریم خصوصی تضمین شده'
+        'CYBER_SECURITY_ACTIVE',
+        'SYSTEM_PROTECTED',
+        'ENCRYPTION_ENABLED'
     ];
     let textIndex = 0;
     let charIndex = 0;
@@ -101,7 +128,7 @@ function initTyping() {
     type();
 }
 
-// ===== Navbar Scroll =====
+// ===== NAVBAR SCROLL =====
 function initNavbar() {
     const navbar = document.getElementById('navbar');
     if (!navbar) return;
@@ -115,18 +142,18 @@ function initNavbar() {
     });
 }
 
-// ===== Mobile Menu =====
+// ===== MOBILE MENU =====
 function initMobileMenu() {
-    const btn = document.getElementById('mobileMenuBtn');
+    const toggle = document.getElementById('mobileToggle');
     const navLinks = document.querySelector('.nav-links');
-    if (!btn || !navLinks) return;
+    if (!toggle || !navLinks) return;
     
-    btn.addEventListener('click', () => {
+    toggle.addEventListener('click', () => {
         navLinks.classList.toggle('active');
     });
 }
 
-// ===== Smooth Scroll =====
+// ===== SMOOTH SCROLL =====
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -139,45 +166,9 @@ function initSmoothScroll() {
     });
 }
 
-// ===== Countdown Timer =====
-function initCountdown() {
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-    
-    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
-    
-    // Set countdown to 3 days from now
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 3);
-    
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = endDate - now;
-        
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-        daysEl.textContent = String(days).padStart(2, '0');
-        hoursEl.textContent = String(hours).padStart(2, '0');
-        minutesEl.textContent = String(minutes).padStart(2, '0');
-        secondsEl.textContent = String(seconds).padStart(2, '0');
-        
-        if (distance < 0) {
-            endDate.setDate(endDate.getDate() + 3);
-        }
-    }
-    
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-}
-
-// ===== Number Counter Animation =====
+// ===== NUMBER COUNTER =====
 function initCounters() {
-    const counters = document.querySelectorAll('.stat-number');
+    const counters = document.querySelectorAll('.status-value[data-target]');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -191,10 +182,10 @@ function initCounters() {
                 const updateCounter = () => {
                     current += increment;
                     if (current < target) {
-                        counter.textContent = Math.floor(current).toLocaleString('fa-IR');
+                        counter.textContent = Math.floor(current).toString().padStart(2, '0');
                         requestAnimationFrame(updateCounter);
                     } else {
-                        counter.textContent = target.toLocaleString('fa-IR');
+                        counter.textContent = target.toString().padStart(2, '0');
                     }
                 };
                 
@@ -207,78 +198,9 @@ function initCounters() {
     counters.forEach(counter => observer.observe(counter));
 }
 
-// ===== 3D Tilt Effect =====
-function initTilt() {
-    const cards = document.querySelectorAll('[data-tilt]');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-        });
-    });
-}
-
-// ===== FAQ Accordion =====
-function initFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            const isActive = item.classList.contains('active');
-            
-            // Close all
-            faqItems.forEach(i => i.classList.remove('active'));
-            
-            // Open clicked if wasn't active
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
-    });
-}
-
-// ===== Theme Toggle =====
-function initThemeToggle() {
-    const toggle = document.getElementById('themeToggle');
-    if (!toggle) return;
-    
-    const icon = toggle.querySelector('i');
-    
-    // Check saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        icon.className = savedTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-    }
-    
-    toggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        icon.className = newTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-    });
-}
-
-// ===== Scroll Reveal =====
+// ===== SCROLL REVEAL =====
 function initScrollReveal() {
-    const revealElements = document.querySelectorAll('.stat-card, .product-card, .testimonial-card, .faq-item, .feature-item');
+    const revealElements = document.querySelectorAll('.cyber-card, .status-item, .terminal-window');
     
     revealElements.forEach(el => el.classList.add('reveal'));
     
@@ -293,20 +215,65 @@ function initScrollReveal() {
     revealElements.forEach(el => observer.observe(el));
 }
 
-// ===== Initialize All =====
+// ===== RANDOM GLITCH =====
+function initRandomGlitch() {
+    const glitchTexts = document.querySelectorAll('.glitch-text, .nav-glitch');
+    
+    setInterval(() => {
+        const randomEl = glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
+        if (randomEl) {
+            randomEl.style.animation = 'glitch-anim 0.3s ease-out';
+            setTimeout(() => {
+                randomEl.style.animation = '';
+            }, 300);
+        }
+    }, 5000);
+}
+
+// ===== TERMINAL TYPING EFFECT =====
+function initTerminalTyping() {
+    const terminalBody = document.querySelector('.terminal-body');
+    if (!terminalBody) return;
+    
+    const lines = terminalBody.querySelectorAll('.terminal-line');
+    lines.forEach((line, index) => {
+        line.style.opacity = '0';
+        setTimeout(() => {
+            line.style.transition = 'opacity 0.5s ease';
+            line.style.opacity = '1';
+        }, index * 300);
+    });
+}
+
+// ===== MOUSE PARALLAX =====
+function initParallax() {
+    const orbits = document.querySelectorAll('.orbit');
+    
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        
+        orbits.forEach((orbit, index) => {
+            const speed = (index + 1) * 0.5;
+            orbit.style.transform = `translate(-50%, -50%) translate(${x * speed}px, ${y * speed}px)`;
+        });
+    });
+}
+
+// ===== INITIALIZE ALL =====
 document.addEventListener('DOMContentLoaded', () => {
     initMatrix();
-    createParticles();
+    initCursorTrail();
+    initGlitchEffect();
     initTyping();
     initNavbar();
     initMobileMenu();
     initSmoothScroll();
-    initCountdown();
     initCounters();
-    initTilt();
-    initFAQ();
-    initThemeToggle();
     initScrollReveal();
+    initRandomGlitch();
+    initTerminalTyping();
+    initParallax();
 });
 '''
 
